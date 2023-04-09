@@ -2,15 +2,11 @@ import { useSelector } from 'react-redux';
 import { ContactItem } from './ContactItem';
 
 import { List } from './ContactList.styled';
-import {
-  selectContacts,
-  selectIsLoading,
-  selectVisibleContacts,
-} from 'redux/selectors';
+import { selectContacts, selectVisibleContacts } from 'redux/selectors';
+import { InfoTextBox } from 'components/InfoTextBox/InfoTextBox';
 
 export const ContactsList = () => {
   const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsLoading);
   const visibleContacts = useSelector(selectVisibleContacts);
 
   const visibleContactsLength = visibleContacts.length;
@@ -19,9 +15,9 @@ export const ContactsList = () => {
   return (
     <>
       {contactsLength === 0 ? (
-        <p>You have no contacts yet...</p>
+        <InfoTextBox>You have no contacts yet...</InfoTextBox>
       ) : visibleContactsLength === 0 ? (
-        <p>No results in your contacts...</p>
+        <InfoTextBox>No results in your contacts...</InfoTextBox>
       ) : (
         <List>
           {visibleContacts.map(contact => (
