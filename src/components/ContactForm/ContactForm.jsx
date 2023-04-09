@@ -1,7 +1,8 @@
 import { Formik } from 'formik';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
+import { addContact } from '../../redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 import {
   Form,
@@ -12,20 +13,20 @@ import {
 } from './ContactForm.styles';
 
 export const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts.savedContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    const { name, number } = values;
-
-    const isContactRepeat = contacts.find(contact => contact.name === name);
+    const isContactRepeat = contacts.find(
+      contact => contact.name === values.name
+    );
 
     if (isContactRepeat) {
-      alert(`${name} is alredy in contacts`);
+      alert(`${values.name} is alredy in contacts`);
       return;
     }
 
-    dispatch(addContact(name, number));
+    dispatch(addContact(values));
     actions.resetForm();
   };
 
@@ -33,7 +34,7 @@ export const ContactForm = () => {
     <Formik
       initialValues={{
         name: '',
-        number: '',
+        phone: '',
       }}
       onSubmit={handleSubmit}
     >
@@ -55,7 +56,7 @@ export const ContactForm = () => {
           <FormLabel>Number</FormLabel>
           <FormInput
             id="number"
-            name="number"
+            name="phone"
             type="tel"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
