@@ -2,10 +2,15 @@ import { useSelector } from 'react-redux';
 import { ContactItem } from './ContactItem';
 
 import { List } from './ContactList.styled';
-import { selectContacts, selectVisibleContacts } from 'redux/selectors';
+import {
+  selectContacts,
+  selectIsLoading,
+  selectVisibleContacts,
+} from 'redux/selectors';
 
 export const ContactsList = () => {
   const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
   const visibleContacts = useSelector(selectVisibleContacts);
 
   const visibleContactsLength = visibleContacts.length;
